@@ -1,0 +1,115 @@
+libraries:
+  Movies:
+    metadata_path:
+    - file: config/Movies.yml
+    overlay_path:
+    - remove_overlays: false
+    - reapply_overlays: true
+    - pmm: audio_codec
+    - pmm: resolution
+    - pmm: streaming
+      template_variables:
+        vertical_offset: 30
+    - pmm: runtimes
+      template_variables:
+        text: ''
+        back_width: 305
+    - pmm: ratings
+      template_variables:
+        rating1: critic
+        rating2: audience
+        rating3: user
+        rating1_image: imdb
+        rating2_image: rt_popcorn
+        rating3_image: tmdb
+    operations:
+      mass_critic_rating_update: imdb
+      mass_audience_rating_update: mdb_tomatoesaudience
+      mass_user_rating_update: tmdb
+  # Shows:
+  #   metadata_path:
+  #   - file: config/Shows.yml
+  #   overlay_path:
+  #   - remove_overlays: false
+  #   - reapply_overlays: false
+  #   - pmm: resolution
+  #   - pmm: resolution
+  #     template_variables:
+  #       overlay_level: episode
+  #   - pmm: resolution
+  #     template_variables:
+  #       overlay_level: season
+  #   - pmm: runtimes 
+  #     template_variables:
+  #       overlay_level: episode
+  #       text: ''
+  #       back_width: 305
+settings:
+  cache: true
+  cache_expiration: 60
+  asset_directory: config/assets
+  asset_folders: true
+  asset_depth: 0
+  create_asset_folders: false
+  prioritize_assets: false
+  dimensional_asset_rename: false
+  download_url_assets: false
+  show_missing_season_assets: false
+  show_missing_episode_assets: false
+  show_asset_not_needed: true
+  sync_mode: append
+  minimum_items: 1
+  default_collection_order:
+  delete_below_minimum: true
+  delete_not_scheduled: false
+  run_again_delay: 2
+  missing_only_released: false
+  only_filter_missing: false
+  show_unmanaged: true
+  show_filtered: false
+  show_options: false
+  show_missing: true
+  show_missing_assets: true
+  save_report: false
+  tvdb_language: eng
+  ignore_ids:
+  ignore_imdb_ids:
+  item_refresh_delay: 0
+  playlist_sync_to_user: all
+  playlist_exclude_user:
+  playlist_report: false
+  verify_ssl: true
+  custom_repo:
+  check_nightly: false
+  show_unconfigured: true
+  playlist_exclude_users:
+webhooks:
+  error:
+  version:
+  run_start:
+  run_end:
+  changes:
+  delete:
+plex:
+  url: http://192.168.1.200:32400
+  token: 1s7QyrD8geMYBgvA-ig2
+  timeout: 60
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+tmdb:
+  apikey: ba20701a3c857532a340484da0cf7978
+  language: en
+  cache_expiration: 60
+  region:
+trakt:
+  client_id: 4da975cae010796c48313bc51cbe923c635ba4466b0f58f94d44fbb9f8c07251
+  client_secret: e46b1f854017ec1372047e530540daa0313dbf66e5b022f294d63cc7eaf8147e
+  pin:
+  authorization:
+    access_token:
+    token_type:
+    expires_in:
+    refresh_token:
+    scope: public
+    created_at:

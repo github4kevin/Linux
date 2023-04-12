@@ -1,0 +1,232 @@
+templates:
+  Holiday:
+    smart_label: title.asc
+    summary: "A timed collection of <<holiday>> movies and other movies that may relate to the holiday. NOTE: this collection will automatically disappear once the holiday period is over."
+    delete_not_scheduled: true
+    sort_title: "!AA"
+    run_again: true
+    visible_home: true
+    visible_shared: true
+    sync_mode: sync
+collections:
+######################
+#  NETWORK RELEASES  #
+######################
+  # APPLE
+  Apple Originals:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1APPLE
+    imdb_list:
+      url:   https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0546168
+    summary: All Apple TV Originals
+    url_poster: https://i.imgur.com/O9iWork.png
+    url_background: https://wallpaper-house.com/data/out/8/wallpaper2you_228774.png
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+  # AMAZON
+  Amazon Originals:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1APPLE
+    imdb_list:
+      url:   https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0319272
+    summary: All Amazon Originals
+    url_poster: https://i.imgur.com/nU3gqqB.png
+    url_background: https://i.imgur.com/2jfs7oS.png
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+  # NETFLIX
+  Netflix Originals:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1Netflix
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0144901
+    summary: All Netflix Originals
+    url_poster: https://i.imgur.com/7kiE1MU.png
+    url_background: https://img5.goodfon.com/original/1920x1080/1/61/fon-netflix-logo-raduga-tsvet-fon-background-skachat-oboi-sk.jpg
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+  # HBO MAX
+  HBO Max Originals:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1HBOMAX
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0754095
+    summary: All HBO Max Originals
+    url_poster: https://i.redd.it/zxdvw3tk3f151.jpg
+    url_background: https://wallpapercave.com/wp/wp6402755.png
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+  # HULU
+  HULU Originals:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1HULU
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0218858
+    summary: All HULU Originals
+    url_poster: https://plexcollectionposters.com/images/2019/05/26/Hulu6ddad752a5ce9bac.jpg
+    url_background: https://cdn.vox-cdn.com/thumbor/oR4hqrmTxbX_O4gdJ6np8h-PxFk=/0x439:750x861/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/56311701/Image_uploaded_from_iOS__8_.1503433270.jpg
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+########################
+#  CUSTOM COLLECTIONS  #
+########################
+  # TRENDING MOVIES
+  Trending:
+    trakt_trending: 10
+    tmdb_trending_daily: 10
+    tmdb_trending_weekly: 10
+    sort_title: +1_Trending
+    sync_mode: sync
+    smart_label: random
+    summary: Movies Trending across the internet
+  # POPULAR MOVIES
+  Popular:
+    tmdb_popular: 40
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,documentary,short
+      limit: 40
+    sort_title: +2_Popular
+    sync_mode: sync
+    smart_label: random
+    summary: Popular Movies across the internet
+  # IMDB TOP 100
+  IMDB Top 100:
+    imdb_list: https://www.imdb.com/search/title/?groups=top_100&count=100&sort=user_rating,desc
+    summary: Movies that are in IMDB's Top 100 Movies of all time list
+    sort_title: +2 IMDB
+    sync_mode: sync
+    collection_order: release
+    collection_mode: default
+  # BEST PICTURES
+  Oscars Best Picture Winners:
+    sort_title: +2 Oscars Best Picture Winners
+    trakt_list: https://trakt.tv/users/pjcob/lists/1970-2021-oscars-best-picture-winners?sort=rank,asc
+    summary: Movies that have won Oscars for Best Pictures
+    sync_mode: sync
+  # BASED ON TRUE EVENTS
+  Based on True Events:
+    smart_label: originally_available.desc
+    trakt_list: https://trakt.tv/users/manu101/lists/based-inspired-on-actual-events
+    summary: Movies based on true events.
+    sort_title: +2 Based on true events
+    sync_mode: sync
+  # TIME TRAVEL
+  Time Travel:
+    smart_label: title.asc
+    trakt_list: https://trakt.tv/users/vagnerr/lists/time-travel
+    summary: Movies containing time-travel in any form (time-loop, relocation, consciousness transfer, etc.)
+    sort_title: +2 Time Travel
+    sync_mode: sync
+  # HEIST MOVIES
+  Heist Movies:
+    imdb_list:
+      - https://www.imdb.com/list/ls068224634/
+      - https://www.imdb.com/list/ls009794682/
+    sort_title: +2 Heist
+    collection_order: alpha
+    collection_mode: default
+    summary: Movies detailing the preparation for, execution of and aftermath of daring heist.
+    sync_mode: sync
+  # SPACE MOVIES  
+  Space Movie Collection:
+    trakt_list: https://trakt.tv/users/hdlists/lists/outer-space-space-exploration-movies
+    sync_mode: sync
+    smart_label: critic_rating.desc
+    sort_title: ++++++++++++++++++_Outer Space Movie Collection
+    summary: Movies That Take Place in Outer Space
+    url_poster: https://i.imgur.com/tOujJnS.jpg
+    url_background: https://i.imgur.com/CUIrEWQ.jpg
+  # SUPERHERO MOVIES  
+  Superhero Movies:
+    trakt_list: https://trakt.tv/users/hdlists/lists/best-superhero-movies
+    sort_title: +++++++++++++++++++++_Superhero Movies
+    sync_mode: sync
+    smart_label: critic_rating.desc
+    summary: Best Superhero Movies of All Time
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+    url_poster: https://i.imgur.com/lqXRQdd.png
+  # MOVIES PEOPLE ARE WATCHING  
+  Movies People are Watching:
+    trakt_list: https://trakt.tv/users/hdlists/lists/top-films-everyone-s-watching
+    sort_title: +++++++++++++++++++++_Everyones Watching
+    sync_mode: sync
+    smart_label: year.desc
+    summary: Movies That Everyone is Watching
+    radarr_add: false
+    radarr_search: false
+    radarr_monitor: false
+    url_poster: https://i.imgur.com/GQca9tU.png    
+  ########################
+  # REFERENCES TEMPLATES #
+  ########################
+  # VALENTINE'S
+  Valentine's Day Movies:
+    schedule: range(02/01-02/14)
+    template: { name: Holiday, holiday: "Valentine's Day" }
+    imdb_list:
+      - https://www.imdb.com/list/ls000094398/
+      - https://www.imdb.com/list/ls057783436/
+      - https://www.imdb.com/list/ls064427905/
+  # ST. PATRICK'S
+  St. Patrick's Day Movies:
+    schedule: range(03/01-03/17)
+    template: { name: Holiday, holiday: "St. Patrick's Day" }
+    imdb_list: https://www.imdb.com/list/ls063934595/
+  # THANKSGIVING
+  Thanksgiving Movies:
+    schedule: range(10/01-10/14)
+    sort_title: "!AA"
+    template: { name: Holiday, holiday: Thanksgiving }
+    imdb_list:
+      - https://www.imdb.com/list/ls000835734/
+      - https://www.imdb.com/list/ls091597850/
+  # HALLOWEEN
+  Halloween Movies:
+    schedule: range(10/01-10/31)
+    sort_title: "!AB"
+    template: { name: Holiday, holiday: Halloween }
+    imdb_list:
+      - https://www.imdb.com/list/ls023118929/
+      - https://www.imdb.com/list/ls000099714/
+      - https://www.imdb.com/list/ls000058693/
+      - https://www.imdb.com/search/title/?genres=horror&keywords=haunted-house&sort=moviemeter,asc
+    tmdb_collection:
+      - 91361 # Halloween Collection
+      - 8581 # A Nightmare on Elm Street Collection
+      - 1733 # The Mummy Collection
+      - 8091 # Alien Collection
+    tmdb_movie:
+      - 23437 # A Nightmare on Elm Street (2010)
+  # CHRISTMAS
+  Christmas Movies:
+    schedule: range(12/01-12/31)
+    sort_title: "!AB"
+    template: { name: Holiday, holiday: Christmas }
+    imdb_list:
+      - https://www.imdb.com/list/ls000096828/
+      - https://www.imdb.com/list/ls097394442/
+      - https://www.imdb.com/list/ls068976997/
+      - https://www.imdb.com/list/ls027567380/
+    collection_order: release
+  # NEW YEAR'S
+  New Year's Eve Movies:
+    schedule: range(12/26-01/05)
+    sort_title: "!AA"
+    template: { name: Holiday, holiday: "New Year's Eve" }
+    imdb_list: https://www.imdb.com/list/ls066838460/
+# DYNAMIC COLLECTIONS
+dynamic_collections:
+  Decades:
+    type: decade

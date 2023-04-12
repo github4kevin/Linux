@@ -1,0 +1,419 @@
+version: "3.7"
+networks:
+  default:
+services:
+  # https://docs.linuxserver.io/images/docker-plex
+  plex:
+    image: linuxserver/plex:1.31.0
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+      PLEX_CLAIM: "${PLEX_CLAIM}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/plex:/config"
+      - "${MEDIA_DIR}:/media"
+    tmpfs:
+      - "/tmp"
+  # LABELER
+  musicbrainz-picard:
+    image: mikenye/picard:latest
+    container_name: musicbrainz
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 5800:5800
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ./Services/Picard:/config
+      - /media/Music/Lidarr:/downloads
+      - /media/Music/Lidarr/Picard:/organized
+  # EXPORT
+  tdarr:
+    container_name: tdarr
+    image: haveagitgat/tdarr:latest
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - TZ=America/New_York
+      - PUID=1000
+      - PGID=1000
+      - serverIP=192.168.1.200
+      - serverPort=8266
+      - webUIPort=8265
+      - internalNode=true
+      - nodeName=MyInternalNode
+    volumes:
+      - ./Services/Tdarr/Server:/server
+      - ./Services/Tdarr/Configs:/config
+      - ./Services/Tdarr/Logs:/logs
+      - ./Services/Tdarr/Transcode:/temp
+      - /media:/media
+  # BACKUP V2
+  urbackup:
+    image: uroni/urbackup-server:latest
+    container_name: urbackup
+    restart: unless-stopped
+    network_mode: bridge
+    ports:
+      - 55414:55414
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ./..:/var/urbackup
+      - ./Services/UrBackup/Logs:/var/log      
+  # AUTO-UPDATE
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    network_mode: bridge
+    restart: always
+    environment:
+      - TZ=America/New_York
+      - WATCHTOWER_SCHEDULE="0 0 0 * * *" # Everyday @ Midnight
+      - WATCHTOWER_ROLLING_RESTART="true"
+      - WATCHTOWER_INCLUDE_RESTARTING="true"
+      - WATCHTOWER_CLEANUP="true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  # https://docs.linuxserver.io/images/docker-jellyfin
+  jellyfin:
+    image: linuxserver/jellyfin:10.8.9
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+      JELLYFIN_PublishedServerUrl: "${JELLYFIN_HOST}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/jellyfin:/config"
+      - "${MEDIA_DIR}:/media"
+
+  # https://hub.docker.com/r/linuxserver/prowlarr
+  prowlarr:
+    image: linuxserver/prowlarr:1.3.0-develop
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/prowlarr:/config"
+
+  # https://docs.linuxserver.io/images/docker-nzbget
+  nzbget:
+    image: linuxserver/nzbget:21.1.20230119
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/nzbget:/config"
+      - "${DOWNLOADS_DIR}:/downloads"
+
+  # https://docs.linuxserver.io/images/docker-sonarr
+  sonarr:
+    image: linuxserver/sonarr:3.0.9
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/sonarr:/config"
+      - "${DOWNLOADS_DIR}:/downloads"
+      - "${MEDIA_DIR}:/media"
+    links:
+      - nzbhydra
+      - nzbget
+
+  # https://docs.linuxserver.io/images/docker-radarr
+  radarr:
+    image: linuxserver/radarr:4.3.2
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/radarr:/config"
+      - "${DOWNLOADS_DIR}:/downloads"
+      - "${MEDIA_DIR}:/media"
+    links:
+      - nzbhydra
+      - nzbget
+
+  # https://docs.linuxserver.io/images/docker-nzbhydra
+  nzbhydra:
+    image: linuxserver/nzbhydra2:4.7.6
+    restart: unless-stopped
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    networks:
+      - default
+    volumes:
+      - "${CONFIG_DIR}/nzbhydra:/config"
+      - "${DOWNLOADS_DIR}:/downloads"
+
+  # https://docs.linuxserver.io/images/docker-ombi
+  ombi:
+    image: linuxserver/ombi:4.35.10
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONFIG_DIR}/ombi:/config
+    networks:
+      - default
+    links:
+      - sonarr
+      - radarr
+      - plex
+
+  # https://docs.linuxserver.io/images/docker-duplicati
+  duplicati:
+    image: linuxserver/duplicati:2.0.6
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONFIG_DIR}/duplicati:/config:rw
+      - ./:/source:rw
+    networks:
+      - default
+    tmpfs:
+      - /tmp
+      - /var/run/
+
+  # https://hub.docker.com/r/netdata/netdata
+  netdata:
+    image: netdata/netdata:v1.38.1
+    restart: unless-stopped
+    hostname: ${NETDATA_HOST}
+    environment:
+      PGID: ${DOCKER_PGID}
+      TZ: ${TZ}
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - default
+
+  # https://docs.overseerr.dev/getting-started/installation
+  # https://hub.docker.com/r/linuxserver/overseerr
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${CONFIG_DIR}/overseerr:/config
+    links:
+      - sonarr
+      - radarr
+      - plex
+
+  # https://hub.docker.com/r/tailscale/tailscale
+  tailscale:
+    image: tailscale/tailscale:v1.36.2
+    restart: unless-stopped
+    environment:
+      TS_AUTH_KEY: ${TS_AUTH_KEY}
+      TS_STATE_DIR: "/var/lib/tailscale"
+      TS_SOCKET: "/var/run/tailscale/tailscaled.sock"
+      TS_EXTRA_ARGS: "--reset"
+    network_mode: host
+    volumes:
+      - ${CONFIG_DIR}/tailscale:/var/lib/tailscale
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - net_admin
+      - net_raw
+    tmpfs:
+      - /tmp
+      - /var/run/
+
+############# FROM DIFFERENT SITE ################
+plex:
+  image: linuxserver/plex
+  container_name: plex
+  volumes:
+    - /path/to/plex/config:/config
+    - /path/to/plex/Movies:/data/movies
+    - /path/to/plex/Shows:/data/tvshows
+    - /path/to/plex/transcode:/data/transcode
+  network_mode: host
+  restart: always
+  environment:
+    - VERSION=latest
+    - TZ=America/New_York
+nzbget:
+  image: linuxserver/nzbget
+  container_name: nzbget
+  volumes:
+    - /path/to/nzbget/config:/config
+    - /path/to/nzbget/downloads:/downloads
+  restart: always
+  environment:
+    - TZ=America/New_York
+  ports:
+    - 6789:6789
+sonarr:
+  image: linuxserver/sonarr
+  container_name: sonarr
+  depends_on:
+    - nzbget
+  volumes:
+    - /path/to/sonarr/config:/config
+    - /path/to/nzbget/downloads:/downloads
+    - /path/to/plex/Shows:/tv
+  environment:
+    - TZ=America/New_York
+  ports:
+    - 8989:8989
+radarr:
+  image: linuxserver/radarr
+  container_name: radarr
+  depends_on:
+    - nzbget
+  volumes:
+    - /path/to/radarr/config:/config
+    - /path/to/nzbget/downloads:/downloads
+    - /path/to/plex/Movies:/movies
+  environment:
+    - TZ=America/New_York
+  ports:
+    - 7878:7878
+overseerr:
+  image: sctx/overseerr:latest
+  container_name: overseerr
+  environment:
+    - LOG_LEVEL=info
+    - TZ=America/New_York
+  ports:
+    - 5055:5055
+  volumes:
+    - /path/to/overseerr/config:/app/config
+  restart: unless-stopped
+letsencrypt:
+  image: linuxserver/letsencrypt
+  container_name: letsencrypt
+  ports:
+    - 443:443
+    # Only for validation, redirect all http traffic to https in config
+    - 80:80
+  volumes:
+    - /path/to/letsencrypt/config:/config
+  restart: always
+  depends_on:
+    - nzbget
+    - sonarr
+    - radarr
+  environment:
+    - TZ=America/New_York
+    - EMAIL=youremail@gmail.com
+    - URL=your.domain
+    - SUBDOMAINS=services
+    - ONLY_SUBDOMAINS=true
+    # tns validation doesn't work
+    - VALIDATION=http
+# Still requires user to be added. See github for more details
+timemachine:
+  image: odarriba/timemachine
+  container_name: timemachine
+  restart: unless-stopped
+  volumes:
+    - /path/to/timemachine:/timemachine
+  ports:
+    - 548:548
+    - 636:636
+  environment:
+    - AFP_SIZE_LIMIT=250000
+    - AFP_NAME=Backups
+portainer:
+  image: portainer/portainer
+  container_name: portainer
+  ports:
+    - 9000:9000
+  volumes:
+    - /path/to/portainer:/data
+    - /var/run/docker.sock:/var/run/docker.sock
+  restart: always
+watchtower:
+  image: v2tec/watchtower
+  container_name: watchtower
+  restart: always
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+lidarr:
+  image: linuxserver/lidarr
+  container_name: lidarr
+  environment:
+    - PUID=${PUID}
+    - PGID=${PGID}
+    - TZ=${TZ}
+    - UMASK_SET=022
+  volumes:
+    - ${ROOT}/config/lidarr/config:/config
+    - ${MERGERFS_ROOT}/complete/music:/music
+    - ${ROOT}/downloads:/downloads
+  ports:
+    - 8686:8686
+  restart: unless-stopped
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "1m"
+glances:
+  image: nicolargo/glances:latest
+  container_name: glances
+  restart: unless-stopped
+
+  ports:
+    - 61208:61208
+    - 61209:61209
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+  environment:
+    - GLANCES_OPT="-w"
+  networks:
+    - public
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "1m"

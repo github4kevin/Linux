@@ -1,0 +1,195 @@
+collections:
+  # CUSTOM COLLECTIONS #
+  Trending:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    trakt_trending: 40
+    summary: Shows trending across the internet
+  Popular:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=tv_series,tv_miniseries
+      limit: 40
+    summary: Popular shows across the internet
+######################
+#  NETWORK RELEASES  #
+######################    
+  Apple Original Series:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1APPLE
+    imdb_list:
+      url:  https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0546168
+    summary: All Apple TV Original Series
+    url_poster: https://i.imgur.com/O9iWork.png
+    url_background: https://wallpaper-house.com/data/out/8/wallpaper2you_228774.png
+    sonarr_add: false
+    sonarr_search: false
+    sonarr_monitor: all
+  Amazon Original Series:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1APPLE
+    imdb_list:
+      url:  https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0319272
+    summary: All Apple TV Original Series
+    url_poster: https://i.imgur.com/nU3gqqB.png
+    url_background: https://i.imgur.com/2jfs7oS.png
+    sonarr_add: false
+    sonarr_search: false
+    sonarr_monitor: all
+  Netflix Original Series:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1Netflix
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0144901
+    summary: All Netflix Original Series
+    url_poster: https://i.imgur.com/7kiE1MU.png
+    url_background: https://img5.goodfon.com/original/1920x1080/1/61/fon-netflix-logo-raduga-tsvet-fon-background-skachat-oboi-sk.jpg
+    sonarr_add: false
+    sonarr_search: false
+    sonarr_monitor: all
+  HBO Max Original Series:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1HBOMAX
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0754095
+    summary: All HBO Max Series
+    url_poster: https://i.redd.it/zxdvw3tk3f151.jpg
+    url_background: https://wallpapercave.com/wp/wp6402755.png
+    sonarr_add: false
+    sonarr_search: false
+    sonarr_monitor: all
+  HULU Original Series:
+    smart_label: originally_available.desc
+    sync_mode: sync
+    sort_title: +++++++++++++++++++++_1HULU
+    imdb_list:
+      url: https://www.imdb.com/search/title/?title_type=feature,tv_movie,tv_series,tv_special,tv_miniseries,documentary,video,tv_short&release_date=2000-01-01,2050-12-31&genres=!animation&countries=us&languages=en&sort=release_date,desc&count=250&companies=co0218858
+    summary: All HULU Original Series
+    url_poster: https://plexcollectionposters.com/images/2019/05/26/Hulu6ddad752a5ce9bac.jpg
+    url_background: https://cdn.vox-cdn.com/thumbor/oR4hqrmTxbX_O4gdJ6np8h-PxFk=/0x439:750x861/1600x900/cdn.vox-cdn.com/uploads/chorus_image/image/56311701/Image_uploaded_from_iOS__8_.1503433270.jpg
+    sonarr_add: false
+    sonarr_search: false
+    sonarr_monitor: all
+#############################
+# KID'S TV SHOWS BY NETWORK #
+#############################
+  # NICKELODEON
+  Kids Shows On Nickelodeon:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Nickelodeon
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0022565&ref_=fn_co_co_1
+      - https://www.imdb.com/search/title/?companies=co0044395&ref_=fn_co_co_2
+      - https://www.imdb.com/search/title/?companies=co0011615&ref_=fn_co_co_3
+    url_poster: https://theposterdb.com/api/assets/222005
+    smart_label: random
+  # NICK JR
+  Kids Shows On Nick Jr:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Nick Jr
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0652791&ref_=fn_co_co_1
+      - https://www.imdb.com/search/title/?companies=co0106182&ref_=fn_co_co_2
+    url_poster: https://theposterdb.com/api/assets/224781
+    smart_label: random
+  # NICKTOONS
+  Kids Shows On NickToons:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On NickToons
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0465477&ref_=fn_co_co_3
+      - https://www.imdb.com/search/title/?companies=co0888450&ref_=fn_co_co_5
+      - https://www.imdb.com/search/title/?companies=co0167426&ref_=fn_co_co_6
+      - https://www.imdb.com/search/title/?companies=co0093767&ref_=fn_co_co_8
+    url_poster: https://theposterdb.com/api/assets/285808
+    smart_label: random
+  # DISNEY JR
+  Kids Shows On Disney Jr:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Disney Jr
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0311978&ref_=fn_co_co_1
+      - https://www.imdb.com/search/title/?companies=co0586391&ref_=fn_co_co_3
+      - https://www.imdb.com/search/title/?companies=co0363715&ref_=fn_co_co_5
+    url_poster: https://theposterdb.com/api/assets/207423
+    smart_label: random
+  # DISNEY CHANNEL
+  Kids Shows On Disney Channel:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Disney Channel
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0022105&start=51&ref_=adv_nxt
+    url_poster: https://theposterdb.com/api/assets/207422
+    smart_label: random
+  # DISNEY XD
+  Kids Shows On Disney XD:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Disney XD
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0243675&ref_=fn_co_co_2
+      - https://www.imdb.com/search/title/?companies=co0293280&ref_=fn_co_co_5
+    url_poster: https://theposterdb.com/api/assets/258328
+    smart_label: random
+  # PBS KIDS
+  Kids Shows On PBS Kids:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On PBS Kids
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0171371&ref_=fn_co_co_2
+    url_poster: https://theposterdb.com/api/assets/214699
+    smart_label: random
+  # CARTOON NETWORK
+  Kids Shows On Cartoon Network:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Cartoon Network
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0238110&ref_=fn_co_co_1
+      - https://www.imdb.com/search/title/?companies=co0005780&ref_=fn_co_co_2
+    url_poster: https://theposterdb.com/api/assets/220361
+    smart_label: random
+  # BOOMERANG
+  Kids Shows On Boomerang:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Boomerang
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0211390&ref_=fn_co_co_25
+      - https://www.imdb.com/search/title/?companies=co0530659&ref_=fn_co_co_22
+    url_poster: https://theposterdb.com/api/assets/113132
+    smart_label: random
+  # UNIVERSAL KIDS
+  Kids Shows On Universal Kids:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Universal Kids 
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0667778&ref_=fn_co_co_1
+    url_poster: https://i.imgur.com/g2UKKhZ.png
+    smart_label: random
+  # CBEEBIES
+  Kids Shows On Cbeebies:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Cbeebies
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0265997&ref_=fn_co_co_1
+    url_poster: https://theposterdb.com/api/assets/113126
+    smart_label: random
+  # KIDS WB
+  Kids Shows On Kids WB:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Kids WB
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0108606&ref_=fn_co_co_2
+    url_poster: https://theposterdb.com/api/assets/139968
+    smart_label: random
+  # MARVEL
+  Kids Shows On Marvel:
+    sync_mode: sync
+    sort_title: +0_Kids Shows On Marvel
+    imdb_list:
+      - https://www.imdb.com/search/title/?companies=co0249290&ref_=fn_co_co_2
+    url_poster: https://theposterdb.com/api/assets/63386
+    smart_label: random
