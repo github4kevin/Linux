@@ -120,11 +120,11 @@ services:
       - 6767:6767 # Bazarr
       - 8686:8686 # Lidarr
     environment:
-      - VPN_SERVICE_PROVIDER=surfshark
-      - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=EEg4p1c6MHvNhyPbUEBrkzo25kZxqgjDKes/hBo8oX4=
-      - WIREGUARD_ADDRESSES=10.14.0.2/16
-      - SERVER_HOSTNAMES=us-chi.prod.surfshark.com
+      - VPN_SERVICE_PROVIDER=$VPN_SERVICE_PROVIDER
+      - VPN_TYPE=$VPN_TYPE
+      - WIREGUARD_PRIVATE_KEY=$WIREGUARD_PRIVATE_KEY
+      - WIREGUARD_ADDRESSES=$WIREGUARD_ADDRESSES
+      - SERVER_HOSTNAMES=$SERVER_HOSTNAMES
       - TZ=America/New_York
     volumes:
       - ./Services/Gluetun:/gluetun
