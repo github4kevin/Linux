@@ -11,7 +11,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./Services/Portainer:/data
+      - ${SERVICES}/Portainer:/data
   # HOME
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
@@ -22,11 +22,11 @@ services:
       - 80:80
       - 443:443
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Heimdall:/config
+      - ${SERVICES}/Heimdall:/config
   # LOGS
   dozzle:
     container_name: dozzle
@@ -48,8 +48,8 @@ services:
     ports:
       - 32400:32400
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID}
+      - PGID=${PGID}
       - VERSION=docker
       - PLEX_CLAIM=claim-fAohuCQHNNWi5LPTW44Y
     volumes:
@@ -59,8 +59,8 @@ services:
       - /media/Photos:/Photos
       - /media/Music:/Music
       - /media/Backup:/Backup
-      - ./Services/Plex:/config
-      - ./Services/Plex:/transcode
+      - ${SERVICES}/Plex:/config
+      - ${SERVICES}/Plex:/transcode
     devices:
       - /dev/dri:/dev/dri
   # PMM
@@ -70,11 +70,11 @@ services:
     network_mode: bridge
     restart: unless-stopped
     environment:
-      - TZ=America/New_York
+      - TZ=${TIMEZONE}
       - PMM_TIME=04:00
       - PMM_CONFIG=/config/config.yml
     volumes:
-      - ./Services/PlexMetaManager:/config
+      - ${SERVICES}/PlexMetaManager:/config
   # STATS
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
@@ -84,11 +84,11 @@ services:
     ports:
       - 8181:8181
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Tautulli:/config
+      - ${SERVICES}/Tautulli:/config
   #PLEXTRAKT
   plextraktsync:
     image: twolaw/plextraktsync:latest
@@ -96,11 +96,11 @@ services:
     network_mode: bridge
     restart: on-failure:2
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/PlexTrakt:/app/config
+      - ${SERVICES}/PlexTrakt:/app/config
   # VPN
   gluetun:
     image: qmcgaw/gluetun:latest
@@ -120,14 +120,14 @@ services:
       - 6767:6767 # Bazarr
       - 8686:8686 # Lidarr
     environment:
-      - VPN_SERVICE_PROVIDER=$VPN_SERVICE_PROVIDER
-      - VPN_TYPE=$VPN_TYPE
-      - WIREGUARD_PRIVATE_KEY=$WIREGUARD_PRIVATE_KEY
-      - WIREGUARD_ADDRESSES=$WIREGUARD_ADDRESSES
-      - SERVER_HOSTNAMES=$SERVER_HOSTNAMES
-      - TZ=America/New_York
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=${WIREGUARD_ADDRESSES}
+      - SERVER_HOSTNAMES=${SERVER_HOSTNAMES}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Gluetun:/gluetun
+      - ${SERVICES}/Gluetun:/gluetun
   # DOWNLOADER
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -135,14 +135,14 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
       - WEBUI_PORT=8080
     volumes:
-      - ./Services/qBittorrent:/config
-      - ./Services/qBittorrent/vuetorrent:/vuetorrent
-      - /media/Downloads:/downloads
+      - ${SERVICES}/qBittorrent:/config
+      - ${SERVICES}/qBittorrent/vuetorrent:/vuetorrent
+      - ${DOWNLOADS}
       - /media/Downloads/Incomplete:/incomplete
     depends_on:
       - gluetun
@@ -153,11 +153,11 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Prowlarr:/config
+      - ${SERVICES}/Prowlarr:/config
     depends_on:
       - gluetun
   # MOVIES
@@ -167,13 +167,13 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Radarr:/config
+      - ${SERVICES}/Radarr:/config
       - /media/Movies:/movies
-      - /media/Downloads:/downloads
+      - ${DOWNLOADS}
     depends_on:
       - gluetun
   # SHOWS
@@ -183,14 +183,14 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Sonarr:/config
+      - ${SERVICES}/Sonarr:/config
       - /media/Shows:/shows
       - /media/Backup:/backup
-      - /media/Downloads:/downloads
+      - ${DOWNLOADS}
     depends_on:
       - gluetun
   # MUSIC
@@ -200,13 +200,13 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Lidarr:/config
+      - ${SERVICES}/Lidarr:/config
       - /media/Music/Lidarr:/music
-      - /media/Downloads:/downloads
+      - ${DOWNLOADS}
     depends_on:
       - gluetun
   # REQUESTS
@@ -216,11 +216,11 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
-      - ./Services/Overseerr:/config
+      - ${SERVICES}/Overseerr:/config
     depends_on:
       - gluetun
   # SUBTITLES
@@ -230,13 +230,13 @@ services:
     network_mode: "service:gluetun"
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
     volumes:
       - /media/Movies:/movies
       - /media/Shows:/shows
       - /media/Backup:/backup
-      - ./Services/Bazarr:/config
+      - ${SERVICES}/Bazarr:/config
     depends_on:
       - gluetun

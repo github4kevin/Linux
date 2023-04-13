@@ -1,12 +1,17 @@
 # Docker / Docker Compose
 
-All docker containers and their configurations in a `docker-compose.yml` file. 
+If you are using docker, it is recommended to installed docker compose to maintain your docker containers. It helps consolidate all your containers, config, persistent volumes, and environmental variables all in one place. 
 
-To apply every change made to the compose file (typically adding a new container), you will have to run the following command:
+I have included my docker-compose.yml file with the docker containers I am actively running. 
+
+To install all the same docker containers, make the necessary changes to the `docker-compose.yml` file accordingly and run the following command:
 
     docker compose up
 
 ***Note:*** It is recommended to use Portainer as GUI to manage your container, review container health, restart, delete an existing image, etc.
+
+# curl ifconfig.io
+If you want to view the public IP address of a specific container, within the bash shell of that container, run `curl ifconfig.io` and it will output the public IP. This is best used if you want certain containers to go through a VPN for anonymity (qbittorrent, radarr, sonarr, etc.). You can enter a container's bash shell inside portainer.
 
 # docker compose down
 
