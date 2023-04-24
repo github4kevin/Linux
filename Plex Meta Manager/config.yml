@@ -1,49 +1,56 @@
 libraries:
   Movies:
     metadata_path:
-    - file: config/Movies.yml
+      - file: config/Movies.yml
     overlay_path:
-    - remove_overlays: false
-    - reapply_overlays: true
-    - pmm: audio_codec
-    - pmm: resolution
-    - pmm: streaming
-      template_variables:
-        vertical_offset: 30
-    - pmm: runtimes
-      template_variables:
-        text: ''
-        back_width: 305
-    - pmm: ratings
-      template_variables:
-        rating1: critic
-        rating2: audience
-        rating3: user
-        rating1_image: imdb
-        rating2_image: rt_popcorn
-        rating3_image: tmdb
+      - remove_overlays: false
+      - reapply_overlays: true
+      - pmm: audio_codec
+      - pmm: resolution
+      - pmm: streaming
+        template_variables:
+          vertical_offset: 30
+      - pmm: runtimes
+        template_variables:
+          text: ""
+          back_width: 305
+      - pmm: ratings
+        template_variables:
+          rating1: critic
+          rating2: audience
+          rating3: user
+          rating1_image: imdb
+          rating2_image: rt_popcorn
+          rating3_image: tmdb
     operations:
       mass_critic_rating_update: imdb
       mass_audience_rating_update: mdb_tomatoesaudience
       mass_user_rating_update: tmdb
-  # Shows:
-  #   metadata_path:
-  #   - file: config/Shows.yml
-  #   overlay_path:
-  #   - remove_overlays: false
-  #   - reapply_overlays: false
-  #   - pmm: resolution
-  #   - pmm: resolution
-  #     template_variables:
-  #       overlay_level: episode
-  #   - pmm: resolution
-  #     template_variables:
-  #       overlay_level: season
-  #   - pmm: runtimes 
-  #     template_variables:
-  #       overlay_level: episode
-  #       text: ''
-  #       back_width: 305
+  Shows:
+    metadata_path:
+      - pmm: basic # New Episodes from last 7 days and Newly Released from past 90 days
+      - pmm: imdb # IMDB Top 250 Collections
+        template_variables:
+          visible_home_top: true
+          visible_home_popular: true
+    overlay_path:
+      - remove_overlays: false
+      - pmm: resolution # Overlay at show level
+      - pmm: resolution
+        template_variables:
+          overlay_level: season
+      - pmm: ratings
+        template_variables:
+          rating1: critic
+          rating2: audience
+          rating3: user
+          rating1_image: imdb
+          rating2_image: rt_popcorn
+          rating3_image: tmdb
+    operations:
+      mass_critic_rating_update: imdb
+      mass_audience_rating_update: mdb_tomatoesaudience
+      mass_user_rating_update: tmdb
 settings:
   cache: true
   cache_expiration: 60
