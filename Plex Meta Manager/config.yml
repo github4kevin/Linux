@@ -27,8 +27,8 @@ libraries:
       - pmm: basic # New Episodes from last 7 days and Newly Released from past 90 days
       - pmm: imdb # IMDB Top 250 Collections
         template_variables:
-          visible_home_top: true
-          visible_home_popular: true
+          visible_home_top: false # Controls Visibility on Home for "basic"
+          visible_home_popular: false # Controls Visibility on Home for "imdb" 
     overlay_path:
       - remove_overlays: false
       - pmm: resolution # Overlay at Show Level
