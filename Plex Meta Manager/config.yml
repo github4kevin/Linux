@@ -5,7 +5,6 @@ libraries:
     overlay_path:
       - remove_overlays: false
       - reapply_overlays: true
-      - pmm: audio_codec
       - pmm: resolution
       - pmm: streaming
         template_variables:
@@ -18,14 +17,11 @@ libraries:
         template_variables:
           rating1: critic
           rating2: audience
-          rating3: user
           rating1_image: imdb
-          rating2_image: rt_popcorn
-          rating3_image: tmdb
+          rating2_image: star
     operations:
       mass_critic_rating_update: imdb
       mass_audience_rating_update: mdb_tomatoesaudience
-      mass_user_rating_update: tmdb
   Shows:
     metadata_path:
       - pmm: basic # New Episodes from last 7 days and Newly Released from past 90 days
@@ -35,7 +31,7 @@ libraries:
           visible_home_popular: true
     overlay_path:
       - remove_overlays: false
-      - pmm: resolution # Overlay at show level
+      - pmm: resolution # Overlay at Show Level
       - pmm: resolution
         template_variables:
           overlay_level: season
@@ -43,14 +39,11 @@ libraries:
         template_variables:
           rating1: critic
           rating2: audience
-          rating3: user
           rating1_image: imdb
-          rating2_image: rt_popcorn
-          rating3_image: tmdb
+          rating2_image: star
     operations:
       mass_critic_rating_update: imdb
       mass_audience_rating_update: mdb_tomatoesaudience
-      mass_user_rating_update: tmdb
 settings:
   cache: true
   cache_expiration: 60
