@@ -1,8 +1,17 @@
 #!/bin/bash
-/usr/bin/docker container restart qbittorrent
-/usr/bin/docker container restart overseerr
-/usr/bin/docker container restart prowlarr
-/usr/bin/docker container restart lidarr
-/usr/bin/docker container restart radarr
-/usr/bin/docker container restart sonarr
-/usr/bin/docker container restart bazarr
+
+# Variables #
+logname="Restart_Arrs_Log.txt"
+
+date >> $logname
+echo "---------" >> $logname
+
+# Restart Scripts
+/usr/bin/docker container restart qbittorrent >> $logname
+/usr/bin/docker container restart overseerr >> $logname
+/usr/bin/docker container restart prowlarr >> $logname
+/usr/bin/docker container restart lidarr >> $logname
+/usr/bin/docker container restart radarr >> $logname
+/usr/bin/docker container restart sonarr >> $logname
+/usr/bin/docker container restart bazarr >> $logname
+echo "=================================" >> $logname
