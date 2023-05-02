@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Variables #
-src="/home/kevin/Scripts"
+dockerservicesdirectory="/home/kevin/Docker/Services"
+src="$dockerservicesdirectory/Tautulli $dockerservicesdirectory/Speedtest $dockerservicesdirectory/PlexTrakt $dockerservicesdirectory/PlexMetaManager"
 bkup="/home/kevin/Backups"
 day=$(date +%m-%d-%Y_%H-%M-%S)
-archive="ScriptsBackups_$day.tgz"
-logname="/home/kevin/Scripts/Logs/ScriptsBackups.log"
+archive="DockerBackups_$day.tgz"
+logname="/home/kevin/Scripts/Logs/DockerBackups.log"
 
 # Start Message #
 date >> $logname
@@ -16,6 +17,6 @@ tar czf $bkup/$archive $src >> $logname
 
 # End Message #
 echo "-------------" >> $logname
-echo "Finished Scripts Backup" >> $logname
+echo "Finished Docker Services Backup" >> $logname
 date >> $logname
 echo "=====================================" >> $logname
