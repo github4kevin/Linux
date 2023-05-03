@@ -2,7 +2,7 @@
 
 If you are using docker, it is recommended to installed docker compose to maintain your docker containers. It helps consolidate all your containers, config, persistent volumes, and environmental variables all in one place. 
 
-I have included my docker-compose.yml file with the docker containers I am actively running. 
+I have included my `docker-compose.yml` file with the docker containers I am actively running. 
 
 To install all the same docker containers, make the necessary changes to the `docker-compose.yml` file accordingly and run the following command:
 
@@ -25,7 +25,7 @@ This command will stop all docker containers. You will not lose any data with th
 
 The “docker search” command searches for specific images through the Docker hub. This command returns the specific information, including image name, description, automated, official stars, etc.
 
-*Explain below:*
+*Example below:*
 
     docker search plex
 
@@ -33,7 +33,7 @@ The “docker search” command searches for specific images through the Docker 
 
 This will display the active docker version installed on your machine. It will help to confirm if you are on the latest version for troubleshoot.
 
-*Explain below:*
+*Example below:*
 
     docker version
 
@@ -56,9 +56,9 @@ As the name suggests, this will stop an actively-running docker container.
 
 This command is used to know the details of all your networks within your docker setup. You typically should only have the 3 defaults:
 
- 1. bridge
- 2. host
- 3. none
+ 1. *bridge*
+ 2. *host*
+ 3. *none*
 
 Any other networks will be custom/user-created.
 

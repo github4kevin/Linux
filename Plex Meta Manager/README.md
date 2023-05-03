@@ -9,7 +9,12 @@ This contains all my PMM scripts. It contains 3 YAML files:
 
 To manually run the script, run the following commands in the terminal: 
 
+*Run the command below in the terminal:*
+
      docker exec -it plex-meta-manager bash
+
+*Run the command belw in container bash terminal:*
+
      python plex_meta_manager.py -r
 
 **Note**: I need to look into creating a *music.yml* config and create a custom Music collection filters.

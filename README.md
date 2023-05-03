@@ -6,7 +6,7 @@ I have consolidated all my linux scripts and docker-related code in this repo. I
  - Any automated/conjob scripts for linux/docker
 
 *Docker Compose*
- - A docker-compose.yml file showing all active containers
+ - A `docker-compose.yml` file showing all active containers
 
 *Mount NFS*
  - How to mount any Snyology NAS drivers to linux in 3 steps.
