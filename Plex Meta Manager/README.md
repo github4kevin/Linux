@@ -18,3 +18,20 @@ To manually run the script, run the following commands in the terminal:
      python plex_meta_manager.py -r
 
 **Note**: I need to look into creating a *music.yml* config and create a custom Music collection filters.
+
+## Screenshots
+
+*Movies Overlays*
+![Movie Overlays](https://i.imgur.com/pueXRSB.png)
+
+*Show Overlays*
+![Shows Overlays](https://i.imgur.com/KpdOZKh.png)
+
+*Seasons Overlays*
+![Seasons Overlays](https://i.imgur.com/YErg4Oa.png)
+
+*Movie Collections*
+![Movie Collections](https://i.imgur.com/howMH1I.png)
+
+*Show Collections*
+![Show Collections](https://i.imgur.com/3F4AB3g.png)
