@@ -47,10 +47,10 @@ services:
     restart: unless-stopped
     ports:
       - 32400:32400
-    environment:
-      - TZ=${TIMEZONE}    
+    environment:   
       - PUID=${PUID}
       - PGID=${PGID}
+      - TZ=${TIMEZONE}      
       - VERSION=docker
       - PLEX_CLAIM=claim-fAohuCQHNNWi5LPTW44Y
     volumes:
@@ -90,7 +90,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/Tautulli:/config
-  #PLEXTRAKT
+  # PLEXTRAKT
   plextraktsync:
     image: twolaw/plextraktsync:latest
     container_name: plextraktsync
@@ -102,6 +102,22 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/PlexTrakt:/app/config
+  # WIZARR    
+  wizarr:
+    container_name: wizarr
+    image: ghcr.io/wizarrrr/wizarr
+    network_mode: bridge
+    restart: unless-stopped     
+    ports:
+      - 5690:5690
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - APP_URL=https://192.168.1.200:5690
+      - DISABLE_BUILTIN_AUTH=false #Set True When Using Other Auth Provider
+    volumes:
+      - ${SERVICES}/Wizarr:/data/database      
   # VPN
   gluetun:
     image: qmcgaw/gluetun:latest

@@ -113,3 +113,13 @@ echo (Print/output a message)
 
     echo "What's up dude!?"
 
+# Misc Commands
+
+Installing / Upgrading python3 pip
+
+    python3 -m pip install --upgrade pip
+
+To initiate the PlexTraktSync container
+
+    plextraktsync sync
+
