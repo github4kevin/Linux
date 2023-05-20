@@ -1,4 +1,4 @@
-version: "1"
+version: "3"
 services:
   # MANAGE
   portainer:
@@ -47,10 +47,10 @@ services:
     restart: unless-stopped
     ports:
       - 32400:32400
-    environment:   
+    environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TIMEZONE}      
+      - TZ=${TIMEZONE}
       - VERSION=docker
       - PLEX_CLAIM=claim-fAohuCQHNNWi5LPTW44Y
     volumes:
@@ -59,7 +59,7 @@ services:
       - /media/YouTube:/YouTube
       - /media/Photos:/Photos
       - /media/Music:/Music
-      - /media/Backup:/Backup
+      - /media/Repeat:/Backup
       - ${SERVICES}/Plex:/config
       - ${SERVICES}/Plex:/transcode
     devices:
@@ -102,12 +102,12 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/PlexTrakt:/app/config
-  # WIZARR    
+  # WIZARR
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
     network_mode: bridge
-    restart: unless-stopped     
+    restart: unless-stopped
     ports:
       - 5690:5690
     environment:
@@ -117,7 +117,18 @@ services:
       - APP_URL=https://192.168.1.200:5690
       - DISABLE_BUILTIN_AUTH=false #Set True When Using Other Auth Provider
     volumes:
-      - ${SERVICES}/Wizarr:/data/database      
+      - ${SERVICES}/Wizarr:/data/database
+  # WEBSERVER
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 4000:80
+      - 4001:443
+    volumes:
+      - ${SERVICES}/Nginx/vCard:/usr/share/nginx/html
   # VPN
   gluetun:
     image: qmcgaw/gluetun:latest
@@ -206,7 +217,7 @@ services:
     volumes:
       - ${SERVICES}/Sonarr:/config
       - /media/Shows:/shows
-      - /media/Backup:/backup
+      - /media/Repeat:/backup
       - ${DOWNLOADS}
     depends_on:
       - gluetun
