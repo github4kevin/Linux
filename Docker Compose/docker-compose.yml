@@ -52,19 +52,47 @@ services:
       - PGID=${PGID}
       - TZ=${TIMEZONE}
       - VERSION=docker
-      - PLEX_CLAIM=claim-fAohuCQHNNWi5LPTW44Y
+      - PLEX_CLAIM=${PLEXCLAIM}
     volumes:
-      - /media/Movies:/Movies
-      - /media/Shows:/Shows
-      - /media/YouTube:/YouTube
-      - /media/Photos:/Photos
-      - /media/Music:/Music
-      - /media/Repeat:/Backup
+      - /media/Movies:/movies
+      - /media/Shows:/shows
+      - /media/Plex:/plex
       - ${SERVICES}/Plex:/config
       - ${SERVICES}/Plex:/transcode
     devices:
       - /dev/dri:/dev/dri
-  # PMM
+  # JELLYFIN
+  jellyfin:
+    container_name: jellyfin
+    image: lscr.io/linuxserver/jellyfin:latest
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 8096:8096
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - JELLYFIN_PublishedServerUrl=192.168.1.200
+    volumes:
+      - ${SERVICES}/jellyfin:/config
+      - /media/Movies:/movies
+      - /media/Shows:/shows
+      - /media/Plex:/plex
+  # AUDIOBOOK SHELF
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 13378:80
+    volumes:
+      - /media/Plex/Audiobooks:/audiobooks
+      - /media/Plex/Podcasts:/podcasts
+      - ${SERVICES}/AudiobookShelf/Metadata:/metadata
+      - ${SERVICES}/AudiobookShelf/Config:/config
+  # Plex Meta Manager
   plex-meta-manager:
     image: meisnate12/plex-meta-manager:latest
     container_name: plex-meta-manager
@@ -143,6 +171,7 @@ services:
       - 8080:8080 # qBittorrent
       - 5055:5055 # Overseerr
       - 9696:9696 # Prowlarr
+      - 8787:8787 # Readarr
       - 7878:7878 # Radarr
       - 8989:8989 # Sonarr
       - 6767:6767 # Bazarr
@@ -168,15 +197,15 @@ services:
       - TZ=${TIMEZONE}
       - WEBUI_PORT=8080
     volumes:
-      - ${SERVICES}/qBittorrent:/config
       - ${SERVICES}/qBittorrent/vuetorrent:/vuetorrent
-      - ${DOWNLOADS}
-      - /media/Downloads/Incomplete:/incomplete
+      - /media/Plex/Downloads/Incomplete:/incomplete
+      - ${SERVICES}/qBittorrent:/config
+      - ${DOWNLOADS}         
     depends_on:
       - gluetun
   # INDEXER
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:develop
     container_name: prowlarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -190,7 +219,7 @@ services:
       - gluetun
   # MOVIES
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:develop
     container_name: radarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -201,12 +230,13 @@ services:
     volumes:
       - ${SERVICES}/Radarr:/config
       - /media/Movies:/movies
+      - /media/Plex:/plex
       - ${DOWNLOADS}
     depends_on:
       - gluetun
   # SHOWS
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:develop
     container_name: sonarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -217,13 +247,13 @@ services:
     volumes:
       - ${SERVICES}/Sonarr:/config
       - /media/Shows:/shows
-      - /media/Repeat:/backup
+      - /media/Plex:/plex
       - ${DOWNLOADS}
     depends_on:
       - gluetun
   # MUSIC
   lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
+    image: lscr.io/linuxserver/lidarr:develop
     container_name: lidarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -233,13 +263,30 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/Lidarr:/config
-      - /media/Music/Lidarr:/music
+      - /media/Plex/Music/Lidarr:/music
+      - ${DOWNLOADS}
+    depends_on:
+      - gluetun
+  # AUDIOBOOKS & PODCASTS
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${SERVICES}/Readarr:/config
+      - /media/Plex/Audiobooks:/audiobooks
+      - /media/Plex/Podcasts:/podcasts
       - ${DOWNLOADS}
     depends_on:
       - gluetun
   # REQUESTS
   overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
+    image: lscr.io/linuxserver/overseerr:develop
     container_name: overseerr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -253,7 +300,7 @@ services:
       - gluetun
   # SUBTITLES
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:development
     container_name: bazarr
     network_mode: "service:gluetun"
     restart: unless-stopped
@@ -264,7 +311,7 @@ services:
     volumes:
       - /media/Movies:/movies
       - /media/Shows:/shows
-      - /media/Backup:/backup
+      - /media/Plex:/plex
       - ${SERVICES}/Bazarr:/config
     depends_on:
       - gluetun

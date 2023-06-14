@@ -1,15 +1,13 @@
 libraries:
-  Movies:
-    metadata_path:
-      - file: config/Movies.yml
+  Movies: # {NAME OF YOUR MOVIE SERVER}
     overlay_path:
-      - remove_overlays: false
-      - reapply_overlays: true
+      - reapply_overlays: true # {IF YOU NEED TO REDO STUFF}
+      - remove_overlays: false # {IF YOU WANT TO START FRESH}
       - pmm: resolution
       - pmm: streaming
         template_variables:
           vertical_offset: 30
-      - pmm: runtimes
+      - pmm: runtimes # {REMOVE + VARIBLES BELOW IF YOU DO NOT WANT RUNTIME}
         template_variables:
           text: ""
           back_width: 305
@@ -17,33 +15,22 @@ libraries:
         template_variables:
           rating1: critic
           rating2: audience
-          rating1_image: imdb
-          rating2_image: star
-    operations:
-      mass_critic_rating_update: imdb
-      mass_audience_rating_update: mdb_tomatoesaudience
-  Shows:
-    metadata_path:
-      - pmm: basic # New Episodes from last 7 days and Newly Released from past 90 days
-      - pmm: imdb # IMDB Top 250 Collections
-        template_variables:
-          visible_home_top: false # Controls Visibility on Home for "basic"
-          visible_home_popular: false # Controls Visibility on Home for "imdb" 
+          rating1_image: imdb # {THEY HAVE A FEW ICONS IT CAN DISPLAY}
+          rating2_image: star # {THEY HAVE A FEW ICONS IT CAN DISPLAY}
+  Shows: # {NAME OF YOUR SHOW SERVER}
     overlay_path:
-      - remove_overlays: false
+      - reapply_overlays: true # {IF YOU NEED TO REDO STUFF}
+      - remove_overlays: false # {IF YOU WANT TO START FRESH}
       - pmm: resolution # Overlay at Show Level
-      - pmm: resolution
+      - pmm: resolution # Overlay at Season Level (Variable Below)
         template_variables:
           overlay_level: season
-      - pmm: ratings
+      - pmm: ratings # (Personally) Only Care about IMDb & RT (There's 3 total)
         template_variables:
           rating1: critic
           rating2: audience
-          rating1_image: imdb
-          rating2_image: star
-    operations:
-      mass_critic_rating_update: imdb
-      mass_audience_rating_update: mdb_tomatoesaudience
+          rating1_image: imdb # {THEY HAVE A FEW ICONS IT CAN DISPLAY}
+          rating2_image: star # {THEY HAVE A FEW ICONS IT CAN DISPLAY}
 settings:
   cache: true
   cache_expiration: 60
@@ -91,20 +78,20 @@ webhooks:
   changes:
   delete:
 plex:
-  url: http://192.168.1.200:32400
-  token: 1WrPXvsnWQpdbmHH2_Ns
+  url: # http://{PLEX SERVER IP + PORT}
+  token: # {ENTER TOKEN}
   timeout: 60
   clean_bundles: false
   empty_trash: false
   optimize: false
 tmdb:
-  apikey: ba20701a3c857532a340484da0cf7978
+  apikey: # {TO PULL RATINGS (AND FUTURE COLLECTIONS FROM IMDb}
   language: en
   cache_expiration: 60
   region:
 trakt:
-  client_id: 4da975cae010796c48313bc51cbe923c635ba4466b0f58f94d44fbb9f8c07251
-  client_secret: e46b1f854017ec1372047e530540daa0313dbf66e5b022f294d63cc7eaf8147e
+  client_id: # {IF YOU USE TRAKT}
+  client_secret: # {IF YOU USE TRAKT}
   pin:
   authorization:
     access_token:
