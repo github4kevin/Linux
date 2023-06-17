@@ -4,7 +4,7 @@
 logname="/home/kevin/Scripts/Logs/PhotoTranscoderDelete.log"
 
 # Start Message #
-echo "PhotoTranscoderDelete - Start.." >> $logname
+echo "PhotoTranscoderDelete - Start..." >> $logname
 date >> $logname
 echo "------------" >> $logname
 
@@ -13,6 +13,6 @@ rm -r -f -v /home/kevin/Docker/Services/Plex/Library/Application\ Support/Plex\ 
 
 echo "------------" >> $logname
 # Completed Message #
-echo "PhotoTranscoderDelete - Completed" >> $logname
+echo "PhotoTranscoderDelete - Completed!" >> $logname
 date >> $logname
-echo "======================="
+echo "=======================" >> $logname

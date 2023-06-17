@@ -2,7 +2,7 @@
 
 # Variables #
 src="/home/kevin/Backups"
-bkup="/media/Movies/BackupLinux"
+bkup="/media/kevin/PowerSpec/BackupLinux"
 logname="/home/kevin/Scripts/Logs/BackupBackups.log"
 
 # Start Message #
@@ -16,4 +16,4 @@ cp -r $src/* $bkup >> $logname
 # End Message #
 echo "Finished copying backups" >> $logname
 date >> $logname
-echo "=====================================" >> $logname
+echo "=======================" >> $logname
