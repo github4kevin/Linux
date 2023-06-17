@@ -1,20 +1,10 @@
 version: "3"
-#############
- # NETWORKS #
-#############
-networks:
-  default:
-    driver: bridge
-#############
- # SERVICES #
-#############    
 services:
-  # CONTAINER MANAGER
+  # MANAGE
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 9000:9000
@@ -22,12 +12,11 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${SERVICES}/Portainer:/data
-  # HOME FOR CONTAINERS
+  # HOME
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
     container_name: heimdall
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 80:80
@@ -38,12 +27,11 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/Heimdall:/config
-  # CONTAINER LOGS
+  # LOGS
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 9999:8080
@@ -51,12 +39,11 @@ services:
       - DOZZLE_LEVEL=info
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  # PLEX MEDIA SERVER
+  # PMS
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 32400:32400
@@ -78,8 +65,7 @@ services:
   jellyfin:
     container_name: jellyfin
     image: lscr.io/linuxserver/jellyfin:latest
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 8096:8096
@@ -97,8 +83,7 @@ services:
   audiobookshelf:
     container_name: audiobookshelf
     image: ghcr.io/advplyr/audiobookshelf:latest
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 13378:80
@@ -111,8 +96,7 @@ services:
   plex-meta-manager:
     image: meisnate12/plex-meta-manager:latest
     container_name: plex-meta-manager
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     environment:
       - TZ=${TIMEZONE}
@@ -120,12 +104,11 @@ services:
       - PMM_CONFIG=/config/config.yml
     volumes:
       - ${SERVICES}/PlexMetaManager:/config
-  # PLEX STATISTICS (TAUTULLI)
+  # STATS
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 8181:8181
@@ -139,8 +122,7 @@ services:
   plextraktsync:
     image: twolaw/plextraktsync:latest
     container_name: plextraktsync
-    networks:
-      - default
+    network_mode: bridge
     restart: on-failure:2
     environment:
       - PUID=${PUID}
@@ -152,8 +134,7 @@ services:
   wizarr:
     container_name: wizarr
     image: ghcr.io/wizarrrr/wizarr
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 5690:5690
@@ -169,8 +150,7 @@ services:
   nginx:
     container_name: nginx
     image: nginx:latest
-    networks:
-      - default
+    network_mode: bridge
     restart: unless-stopped
     ports:
       - 4000:80
@@ -182,8 +162,7 @@ services:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     restart: unless-stopped
-    networks:
-      - default
+    network_mode: bridge
     cap_add:
       - NET_ADMIN
     ports:
