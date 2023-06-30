@@ -51,6 +51,10 @@ Below are the commands to confirm that a cronjob has been configured and setup c
 
     sudo grep -a "backup_plex.sh" /var/log/syslog
 
+*Backup Backups Container Monthly*
+
+    sudo grep -a "backup_backups.sh" /var/log/syslog
+
 # Helpful Linux Commands
 
 Below is a list of my most commonly used bash/terminal commands. I find them useful and I hope someone else will.

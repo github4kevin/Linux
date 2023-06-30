@@ -44,6 +44,11 @@ libraries:
     operations:
       mass_critic_rating_update: imdb
       mass_audience_rating_update: mdb_tomatoesaudience
+  Music:
+     overlay_path:
+      - remove_overlays: false
+      - pmm: resolution
+      - pmm: audio_codec
 settings:
   cache: true
   cache_expiration: 60
@@ -92,7 +97,7 @@ webhooks:
   delete:
 plex:
   url: http://192.168.1.200:32400
-  token: 1WrPXvsnWQpdbmHH2_Ns
+  token: B26huexhVKf6ExZ9NmEe
   timeout: 60
   clean_bundles: false
   empty_trash: false

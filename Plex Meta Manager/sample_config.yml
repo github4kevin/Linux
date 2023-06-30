@@ -7,7 +7,7 @@ libraries:
       - pmm: streaming
         template_variables:
           vertical_offset: 30
-      - pmm: runtimes # {REMOVE + VARIBLES BELOW IF YOU DO NOT WANT RUNTIME}
+      - pmm: runtimes # {VARIBLES BELOW REMOVES THE WORD "RUNTIME"}
         template_variables:
           text: ""
           back_width: 305

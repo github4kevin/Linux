@@ -417,3 +417,63 @@ glances:
     driver: "json-file"
     options:
       max-size: "1m"
+############ PREVIOUSLY SETUP #################      
+  # AUDIOBOOK SHELF
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 13378:80
+    volumes:
+      - /media/Plex/Audiobooks:/audiobooks
+      - /media/Plex/Podcasts:/podcasts
+      - ${SERVICES}/AudiobookShelf/Metadata:/metadata
+      - ${SERVICES}/AudiobookShelf/Config:/config     
+  # MONITOR
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    network_mode: bridge
+    restart: unless-stopped
+    user: 0
+    ports:
+      - 3000:3000
+    environment:
+      - TERM=linux
+    volumes:
+      - ${SERVICES}/Grafana/data:/var/lib/grafana   
+  # AUDIOBOOKS & PODCASTS
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    network_mode: "service:gluetun"
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${SERVICES}/Readarr:/config
+      - /media/Plex/Audiobooks:/audiobooks
+      - /media/Plex/Podcasts:/podcasts
+      - ${DOWNLOADS}
+    depends_on:
+      - gluetun    
+  # WIZARR
+  wizarr:
+    container_name: wizarr
+    image: ghcr.io/wizarrrr/wizarr
+    network_mode: bridge
+    restart: unless-stopped
+    ports:
+      - 5690:5690
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TIMEZONE}
+      - APP_URL=https://192.168.1.200:5690
+      - DISABLE_BUILTIN_AUTH=false #Set True When Using Other Auth Provider
+    volumes:
+      - ${SERVICES}/Wizarr:/data/database        

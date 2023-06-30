@@ -1,6 +1,6 @@
 version: "3"
 services:
-  # MANAGE
+  # CONTAINER MANAGER
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -12,7 +12,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${SERVICES}/Portainer:/data
-  # HOME
+  # CONTAINER HOME
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
     container_name: heimdall
@@ -27,7 +27,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/Heimdall:/config
-  # LOGS
+  # CONTAINER LOGS
   dozzle:
     container_name: dozzle
     image: amir20/dozzle:latest
@@ -39,7 +39,7 @@ services:
       - DOZZLE_LEVEL=info
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  # PMS
+  # PLEX MEDIA SERVER
   plex:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex
@@ -79,20 +79,7 @@ services:
       - /media/Movies:/movies
       - /media/Shows:/shows
       - /media/Plex:/plex
-  # AUDIOBOOK SHELF
-  audiobookshelf:
-    container_name: audiobookshelf
-    image: ghcr.io/advplyr/audiobookshelf:latest
-    network_mode: bridge
-    restart: unless-stopped
-    ports:
-      - 13378:80
-    volumes:
-      - /media/Plex/Audiobooks:/audiobooks
-      - /media/Plex/Podcasts:/podcasts
-      - ${SERVICES}/AudiobookShelf/Metadata:/metadata
-      - ${SERVICES}/AudiobookShelf/Config:/config
-  # Plex Meta Manager
+  # PLEX META MANAGER
   plex-meta-manager:
     image: meisnate12/plex-meta-manager:latest
     container_name: plex-meta-manager
@@ -104,7 +91,7 @@ services:
       - PMM_CONFIG=/config/config.yml
     volumes:
       - ${SERVICES}/PlexMetaManager:/config
-  # STATS
+  # TAUTULLI
   tautulli:
     image: lscr.io/linuxserver/tautulli:latest
     container_name: tautulli
@@ -130,22 +117,6 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES}/PlexTrakt:/app/config
-  # WIZARR
-  wizarr:
-    container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr
-    network_mode: bridge
-    restart: unless-stopped
-    ports:
-      - 5690:5690
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
-      - APP_URL=https://192.168.1.200:5690
-      - DISABLE_BUILTIN_AUTH=false #Set True When Using Other Auth Provider
-    volumes:
-      - ${SERVICES}/Wizarr:/data/database
   # WEBSERVER
   nginx:
     container_name: nginx
@@ -171,7 +142,6 @@ services:
       - 8080:8080 # qBittorrent
       - 5055:5055 # Overseerr
       - 9696:9696 # Prowlarr
-      - 8787:8787 # Readarr
       - 7878:7878 # Radarr
       - 8989:8989 # Sonarr
       - 6767:6767 # Bazarr
@@ -200,7 +170,7 @@ services:
       - ${SERVICES}/qBittorrent/vuetorrent:/vuetorrent
       - /media/Plex/Downloads/Incomplete:/incomplete
       - ${SERVICES}/qBittorrent:/config
-      - ${DOWNLOADS}         
+      - ${DOWNLOADS}
     depends_on:
       - gluetun
   # INDEXER
@@ -264,23 +234,6 @@ services:
     volumes:
       - ${SERVICES}/Lidarr:/config
       - /media/Plex/Music/Lidarr:/music
-      - ${DOWNLOADS}
-    depends_on:
-      - gluetun
-  # AUDIOBOOKS & PODCASTS
-  readarr:
-    image: lscr.io/linuxserver/readarr:develop
-    container_name: readarr
-    network_mode: "service:gluetun"
-    restart: unless-stopped
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TIMEZONE}
-    volumes:
-      - ${SERVICES}/Readarr:/config
-      - /media/Plex/Audiobooks:/audiobooks
-      - /media/Plex/Podcasts:/podcasts
       - ${DOWNLOADS}
     depends_on:
       - gluetun
